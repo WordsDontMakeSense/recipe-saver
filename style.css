@@ -1,0 +1,139 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    color: #333;
+}
+
+.list-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #e9e9e9;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+    /* Center align content vertically */
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Keeps space below the recipe name */
+#recipeName {
+    margin-bottom: 20px;
+    display: block;
+    font-size: 1.17em;
+    font-weight: bold;
+    border: none;
+    color: black;
+    padding: 0;
+}
+
+#recipeName::placeholder {
+    color: black;
+}
+
+/* Wrap quantity and measurement dropdown in one row using flex */
+.addNewIngredientInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#newIngredientQuantity {
+    max-width: 80px;
+    width: auto;
+}
+
+#newStep {
+    width: 100%;
+    height: 48pt;
+}
+
+#measurementDropdown {
+    width: auto;
+    flex-grow: 1;
+}
+
+#newIngredient {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#addIngredientButton {
+    display: block;
+}
+
+/* Ingredient name and button container - ensures vertical stacking */
+.ingredientNameAndButton {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Trash icon styling */
+.delete-button {
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
+}
+
+.delete-button:hover {
+    color: #555;
+}
+
+.material-symbols-outlined {
+    font-size: 24px !important;
+}
+
+hr {
+    margin: 0 0 .5rem;
+}
+
+.save-load-container {
+    padding: 10px 0 0;
+}
