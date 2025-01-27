@@ -142,6 +142,7 @@ function save() {
     name: "",
     ingredients: [],
     steps: [],
+    image: "",
     dateSaved: date,
   };
 
@@ -168,6 +169,7 @@ function save() {
         .children[i].innerText.replace("\ndelete", "")
     );
   }
+  data.image = document.getElementById("image").src;
 
   var a = document.createElement("a");
   var file = new Blob([JSON.stringify(data)], { type: "application/json" });
@@ -279,6 +281,7 @@ function load(data) {
     newIngredientQuantity.value = "";
     newIngredient.value = "";
     newStep.value = "";
+    document.getElementById("image").src = data.image; 
 
     recipeName.value = data.name;
   }
