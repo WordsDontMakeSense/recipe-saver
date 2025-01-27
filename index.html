@@ -29,7 +29,7 @@
         <!-- Add new ingredient form -->
         <div class="addNewIngredient">
             <div class="addNewIngredientInputWrapper">
-                <input type="number" id="newIngredientQuantity" placeholder="0">
+                <input type="number" id="newIngredientQuantity" value="0">
                 <div class="dropdown-container">
                     <select id="measurementDropdown">
                         <optgroup label="Volume">
@@ -48,7 +48,10 @@
                             <option value="lbs">Pounds (lbs)</option>
                         </optgroup>
                         <optgroup label="Quantity">
-                            <option value="q">Quantity</option>
+                            <option value="discrete">Discrete</option>
+                            <option value="A splash">A splash</option>
+                            <option value="A pinch">A pinch</option>
+                            <option value="A dash">A dash</option>
                         </optgroup>
                     </select>
                 </div>

@@ -1,3 +1,15 @@
+// Change quantity listener
+document
+  .getElementById("newIngredientQuantity")
+  .addEventListener("change", function () {
+    if (
+      document.getElementById("newIngredientQuantity").value < 0 ||
+      document.getElementById("newIngredientQuantity").value == ""
+    ) {
+      document.getElementById("newIngredientQuantity").value = 0;
+    }
+  });
+
 // Add ingredient listener
 document
   .getElementById("addIngredientButton")
@@ -60,9 +72,12 @@ function addIngredient(ingredientName, ingredientQuantity, measurement) {
   const newItem = document.createElement("li");
 
   // Create the content of the list item
-  if (measurement == "q") {
+  if (measurement == "discrete") {
     newItem.innerHTML = `${ingredientQuantity} ${ingredientName}
     <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
+  } else if (measurement.startsWith("A")) {
+    newItem.innerHTML = `${measurement} of ${ingredientName}
+  <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
   } else if (measurement == "cup" && ingredientQuantity > 1) {
     newItem.innerHTML = `${ingredientQuantity} ${measurement}s of ${ingredientName}
   <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
@@ -171,7 +186,7 @@ function resetRecipe() {
     ingredientList.innerHTML = "";
     stepList.innerHTML = "";
 
-    newIngredientQuantity.value = "";
+    newIngredientQuantity.value = 0;
     newIngredient.value = "";
     newStep.value = "";
 
