@@ -134,3 +134,8 @@ textarea {
 hr {
     margin: .5 .5;
 }
+
+#reset {
+    float: right;
+    background-color: #dc3546;
+}

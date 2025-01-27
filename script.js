@@ -1,7 +1,13 @@
 // Add ingredient listener
-document.getElementById("addIngredientButton").addEventListener("click", function () {
-  addIngredient(document.getElementById("newIngredient").value.trim(), document.getElementById("newIngredientQuantity").value.trim(), document.getElementById("measurementDropdown").value);
-});
+document
+  .getElementById("addIngredientButton")
+  .addEventListener("click", function () {
+    addIngredient(
+      document.getElementById("newIngredient").value.trim(),
+      document.getElementById("newIngredientQuantity").value.trim(),
+      document.getElementById("measurementDropdown").value
+    );
+  });
 
 // Add step listener
 document.getElementById("addStepButton").addEventListener("click", function () {
@@ -14,15 +20,19 @@ document.getElementById("save").addEventListener("click", save);
 // Load listener
 document.getElementById("load").addEventListener("click", promptFileUpload);
 
-function addCompletedIngredient(ingredient) {
+// Print listener
+document.getElementById("print").addEventListener("click", printPDF);
 
+// Reset recipe
+document.getElementById("reset").addEventListener("click", resetRecipe);
+
+function addCompletedIngredient(ingredient) {
   // Create a new list item
   const newItem = document.createElement("li");
 
   // Create the content of the list item
   newItem.innerHTML = `${ingredient}
   <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
-
 
   // Add the new item to the ingredient list
   document.getElementById("ingredientList").appendChild(newItem);
@@ -40,7 +50,6 @@ function addCompletedIngredient(ingredient) {
 }
 
 function addIngredient(ingredientName, ingredientQuantity, measurement) {
-
   // Ensure input is not empty
   if (ingredientName === "" || ingredientQuantity === "") {
     alert("Please enter both an ingredient and a quantity.");
@@ -104,9 +113,7 @@ function addStep(stepInput) {
 
   // Clear inputs after adding
   document.getElementById("newStep").value = "";
-
 }
-
 
 function save() {
   const date = new Date();
@@ -149,44 +156,51 @@ function save() {
 }
 
 function resetRecipe() {
-  const ingredientList = document.getElementById("ingredientList");
-  const stepList = document.getElementById("stepList");
+  if (confirm("Are you sure? This will erase your current recipe.")) {
+    const ingredientList = document.getElementById("ingredientList");
+    const stepList = document.getElementById("stepList");
 
-  const newIngredientQuantity = document.getElementById("newIngredientQuantity");
-  const newIngredient = document.getElementById("newIngredient");
-  const newStep = document.getElementById("newStep");
+    const newIngredientQuantity = document.getElementById(
+      "newIngredientQuantity"
+    );
+    const newIngredient = document.getElementById("newIngredient");
+    const newStep = document.getElementById("newStep");
 
-  const recipeName = document.getElementById("recipeName");
+    const recipeName = document.getElementById("recipeName");
 
-  ingredientList.innerHTML = "";
-  stepList.innerHTML = "";
+    ingredientList.innerHTML = "";
+    stepList.innerHTML = "";
 
-  newIngredientQuantity.value = "";
-  newIngredient.value = "";
-  newStep.value = "";
+    newIngredientQuantity.value = "";
+    newIngredient.value = "";
+    newStep.value = "";
 
-  recipeName.value = "My Recipe";
+    recipeName.value = "My Recipe";
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function promptFileUpload() {
   const reader = new FileReader();
 
-  var input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.json';
+  var input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json";
 
   var jsonData;
-  
+
   reader.onload = function (e) {
     try {
       jsonData = JSON.parse(e.target.result);
       load(jsonData);
     } catch (error) {
-      alert('Error parsing JSON: ' + error);
+      alert("Error parsing JSON: " + error);
     }
   };
 
-  input.addEventListener('change', function (event) {
+  input.addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file) {
       reader.readAsText(file);
@@ -197,27 +211,85 @@ function promptFileUpload() {
 }
 
 function load(data) {
-  console.log(data);
+  if (resetRecipe()) {
+    const newIngredientQuantity = document.getElementById(
+      "newIngredientQuantity"
+    );
+    const newIngredient = document.getElementById("newIngredient");
+    const newStep = document.getElementById("newStep");
 
-  resetRecipe();
+    const recipeName = document.getElementById("recipeName");
 
-  const newIngredientQuantity = document.getElementById("newIngredientQuantity");
-  const newIngredient = document.getElementById("newIngredient");
-  const newStep = document.getElementById("newStep");
+    for (let i = 0; i < data.ingredients.length; i++) {
+      addCompletedIngredient(data.ingredients[i]);
+    }
 
-  const recipeName = document.getElementById("recipeName");
+    for (let i = 0; i < data.steps.length; i++) {
+      addStep(data.steps[i]);
+    }
 
-  for (let i = 0; i < data.ingredients.length; i++) {
-    addCompletedIngredient(data.ingredients[i]);
+    newIngredientQuantity.value = "";
+    newIngredient.value = "";
+    newStep.value = "";
+
+    recipeName.value = data.name;
+  }
+}
+
+function printPDF() {
+  const doc = new jsPDF();
+
+  doc.setFontSize(20);
+  doc.text(document.getElementById("recipeName").value, 90, 20);
+
+  doc.setFontSize(16);
+  doc.text("Ingredients", 20, 30);
+  doc.setFontSize(12);
+  for (
+    let i = 0;
+    i < document.getElementById("ingredientList").childElementCount;
+    i++
+  ) {
+    doc.text(
+      document
+        .getElementById("ingredientList")
+        .children[i].innerText.replace("\ndelete", ""),
+      20,
+      35 + 5 * i
+    );
   }
 
-  for (let i = 0; i < data.steps.length; i++) {
-    addStep(data.steps[i]);
+  doc.setFontSize(16);
+  doc.text(
+    "Steps",
+    20,
+    45 + 5 * (document.getElementById("ingredientList").childElementCount - 1)
+  );
+  doc.setFontSize(12);
+  for (
+    let i = 0;
+    i < document.getElementById("stepList").childElementCount;
+    i++
+  ) {
+    doc.text(
+      document
+        .getElementById("stepList")
+        .children[i].innerText.replace("\ndelete", ""),
+      20,
+      50 +
+        5 * (document.getElementById("ingredientList").childElementCount - 1) +
+        5 * i
+    );
   }
 
-  newIngredientQuantity.value = "";
-  newIngredient.value = "";
-  newStep.value = "";
+  // Footer
+  doc.setFontSize(10);
+  doc.text(
+    "Generated with github.com/WordsDontMakeSense/Recipe-saver",
+    20,
+    285
+  );
 
-  recipeName.value = data.name;
+  // Save the PDF
+  doc.save("invoice.pdf");
 }
