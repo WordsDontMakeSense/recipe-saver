@@ -233,28 +233,28 @@ function promptFileUpload() {
   input.click();
 }
 
-function promptIMGUpload() {   
-  const reader = new FileReader();    
-  var input = document.createElement('input');   
-  input.type = 'file';   
-  input.accept = '.png';    
+function promptIMGUpload() {
+  const reader = new FileReader();
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = "image/png, image/jpg";
 
-  reader.onload = function (e) {     
-      try {       
-          const b64img = e.target.result;
-          const img = document.getElementById("image");
-          img.src = b64img;
-          img.style = "margin-bottom: 10px;"
-      } catch (error) {       
-          alert('Error parsing IMG: ' + error);     
-      }   
+  reader.onload = function (e) {
+    try {
+      const b64img = e.target.result;
+      const img = document.getElementById("image");
+      img.src = b64img;
+      img.style = "margin-bottom: 10px;"
+    } catch (error) {
+      alert('Error parsing IMG: ' + error);
+    }
   };
 
-  input.addEventListener('change', function (event) {     
-      const file = event.target.files[0];     
-      if (file) {       
-          reader.readAsDataURL(file);
-      }   
+  input.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   });
 
   input.click();
@@ -281,7 +281,11 @@ function load(data) {
     newIngredientQuantity.value = "";
     newIngredient.value = "";
     newStep.value = "";
-    document.getElementById("image").src = data.image; 
+    if (data.hasOwnProperty("image")) {
+      document.getElementById("image").src = data.image;
+    } else {
+      document.getElementById("image").src = "https://place-hold.it/500"
+    }
 
     recipeName.value = data.name;
   }
@@ -328,8 +332,8 @@ function printPDF() {
         .children[i].innerText.replace("\ndelete", ""),
       20,
       50 +
-        5 * (document.getElementById("ingredientList").childElementCount - 1) +
-        5 * i
+      5 * (document.getElementById("ingredientList").childElementCount - 1) +
+      5 * i
     );
   }
 
