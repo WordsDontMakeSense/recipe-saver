@@ -1,3 +1,6 @@
+// Set image listener
+document.getElementById("setImageButton").addEventListener("click", promptIMGUpload);
+
 // Change quantity listener
 document
   .getElementById("newIngredientQuantity")
@@ -223,6 +226,33 @@ function promptFileUpload() {
     if (file) {
       reader.readAsText(file);
     }
+  });
+
+  input.click();
+}
+
+function promptIMGUpload() {   
+  const reader = new FileReader();    
+  var input = document.createElement('input');   
+  input.type = 'file';   
+  input.accept = '.png';    
+
+  reader.onload = function (e) {     
+      try {       
+          const b64img = e.target.result;
+          const img = document.getElementById("image");
+          img.src = b64img;
+          img.style = "margin-bottom: 10px;"
+      } catch (error) {       
+          alert('Error parsing IMG: ' + error);     
+      }   
+  };
+
+  input.addEventListener('change', function (event) {     
+      const file = event.target.files[0];     
+      if (file) {       
+          reader.readAsDataURL(file);
+      }   
   });
 
   input.click();
