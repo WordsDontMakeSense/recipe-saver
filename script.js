@@ -78,6 +78,9 @@ function addIngredient(ingredientName, ingredientQuantity, measurement) {
   } else if (measurement.startsWith("A")) {
     newItem.innerHTML = `${measurement} of ${ingredientName}
   <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
+  } else if (measurement == "as needed" || measurement == "to serve") {
+    newItem.innerHTML = `${ingredientName} ${measurement}
+  <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
   } else if (measurement == "cup" && ingredientQuantity > 1) {
     newItem.innerHTML = `${ingredientQuantity} ${measurement}s of ${ingredientName}
   <a class="delete-button"><span class="material-symbols-outlined">delete</span></a>`;
@@ -252,10 +255,10 @@ function load(data) {
 }
 
 function printPDF() {
-  const doc = new jsPDF();
+  const doc = new jsPDF("l");
 
   doc.setFontSize(20);
-  doc.text(document.getElementById("recipeName").value, 90, 20);
+  doc.text(document.getElementById("recipeName").value, 20, 20);
 
   doc.setFontSize(16);
   doc.text("Ingredients", 20, 30);
@@ -306,5 +309,5 @@ function printPDF() {
   );
 
   // Save the PDF
-  doc.save("invoice.pdf");
+  doc.save(document.getElementById("recipeName").value + ".pdf");
 }
