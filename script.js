@@ -292,59 +292,37 @@ function load(data) {
 }
 
 function printPDF() {
-  const doc = new jsPDF("l");
+  const table = document.createElement("table");
 
-  doc.setFontSize(20);
-  doc.text(document.getElementById("recipeName").value, 20, 20);
+  var ingredients = "";
+  var instructions = "";
 
-  doc.setFontSize(16);
-  doc.text("Ingredients", 20, 30);
-  doc.setFontSize(12);
-  for (
-    let i = 0;
-    i < document.getElementById("ingredientList").childElementCount;
-    i++
-  ) {
-    doc.text(
-      document
-        .getElementById("ingredientList")
-        .children[i].innerText.replace("\ndelete", ""),
-      20,
-      35 + 5 * i
-    );
+  for (let i = 0; i < document.getElementById("ingredientList").childElementCount; i++) {
+    ingredients += `<tr><td><li class="tableStyling">${document.getElementById("ingredientList").children[i].innerText.replace("\ndelete", "")}</li></td></tr>`
   }
 
-  doc.setFontSize(16);
-  doc.text(
-    "Steps",
-    20,
-    45 + 5 * (document.getElementById("ingredientList").childElementCount - 1)
-  );
-  doc.setFontSize(12);
-  for (
-    let i = 0;
-    i < document.getElementById("stepList").childElementCount;
-    i++
-  ) {
-    doc.text(
-      document
-        .getElementById("stepList")
-        .children[i].innerText.replace("\ndelete", ""),
-      20,
-      50 +
-      5 * (document.getElementById("ingredientList").childElementCount - 1) +
-      5 * i
-    );
+  for (let i = 0; i < document.getElementById("stepList").childElementCount; i++) {
+    instructions += `<tr><td>${i + 1}. ${document.getElementById("stepList").children[i].innerText.replace("\ndelete", "")}</li></td>`
   }
 
-  // Footer
-  doc.setFontSize(10);
-  doc.text(
-    "Generated with github.com/WordsDontMakeSense/Recipe-saver",
-    20,
-    285
-  );
+  table.innerHTML = `
+      <thead>
+          <tr>
+              <th>Lemonade</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr class="recipeTableCategory">
+              <td>Ingredients</td>
+          </tr>
+          ${ingredients}
+          <tr class="recipeTableCategory">
+              <td>Instructions</td>
+          </tr>
+          ${instructions}
+      </tbody>`
 
-  // Save the PDF
-  doc.save(document.getElementById("recipeName").value + ".pdf");
+  table.className = "recipeTable";
+
+  document.body.appendChild(table);
 }
