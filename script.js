@@ -281,18 +281,18 @@ function load(data) {
     newIngredientQuantity.value = "";
     newIngredient.value = "";
     newStep.value = "";
-    if (data.hasOwnProperty("image")) {
-      document.getElementById("image").src = data.image;
-    } else {
-      document.getElementById("image").src = "https://place-hold.it/500"
-    }
+    // if (data.hasOwnProperty("image")) {
+    //   document.getElementById("image").src = data.image;
+    // } else {
+    //   document.getElementById("image").src = "https://place-hold.it/500"
+    // }
 
     recipeName.value = data.name;
   }
 }
 
 function printPDF() {
-  var url = `file:///Users/ainslvio0/Desktop/Recipe-Saver/print.html?recipeName=${document.getElementById("recipeName").value}&image=${document.getElementById("image").src}`
+  var url = `print.html?recipeName=${document.getElementById("recipeName").value}`
   for (let i = 0; i < document.getElementById("ingredientList").childElementCount; i++) {
     url += `&ingredient` + i + "=" + document.getElementById("ingredientList").children[i].innerText.replace("\ndelete", "");
   }

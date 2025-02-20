@@ -58,7 +58,7 @@ textarea {
 
 /* Keeps space below the recipe name */
 #recipeName {
-    /* margin-bottom: 20px; */
+    margin-bottom: 0!important;
     display: block;
     font-size: 1.17em;
     font-weight: bold;
