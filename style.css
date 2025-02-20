@@ -58,7 +58,7 @@ textarea {
 
 /* Keeps space below the recipe name */
 #recipeName {
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     display: block;
     font-size: 1.17em;
     font-weight: bold;
@@ -149,29 +149,4 @@ hr {
 #setImageButton {
     width: 100%;
     margin-top: 10px;
-}
-
-table.recipeTable {
-    width: 7.5in;
-    border-collapse: collapse;
-    border-width: 1px;
-    border-style: none;
-    margin: .5in;
-    background-color: white;
-}
-
-table.recipeTable td,
-table.recipeTable th {
-    border-width: 1px;
-    border-color: black;
-    border-style: none;
-    padding: 5px;
-}
-
-.recipeTableCategory {
-    font-weight: bold;
-}
-
-th {
-    font-size: 16pt;
 }

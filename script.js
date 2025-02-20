@@ -1,5 +1,5 @@
 // Set image listener
-document.getElementById("setImageButton").addEventListener("click", promptIMGUpload);
+// document.getElementById("setImageButton").addEventListener("click", promptIMGUpload);
 
 // Change quantity listener
 document
@@ -142,7 +142,7 @@ function save() {
     name: "",
     ingredients: [],
     steps: [],
-    image: "",
+    // image: "",
     dateSaved: date,
   };
 
@@ -169,7 +169,7 @@ function save() {
         .children[i].innerText.replace("\ndelete", "")
     );
   }
-  data.image = document.getElementById("image").src;
+  // data.image = document.getElementById("image").src;
 
   var a = document.createElement("a");
   var file = new Blob([JSON.stringify(data)], { type: "application/json" });
@@ -292,37 +292,12 @@ function load(data) {
 }
 
 function printPDF() {
-  const table = document.createElement("table");
-
-  var ingredients = "";
-  var instructions = "";
-
+  var url = `file:///Users/ainslvio0/Desktop/Recipe-Saver/print.html?recipeName=${document.getElementById("recipeName").value}&image=${document.getElementById("image").src}`
   for (let i = 0; i < document.getElementById("ingredientList").childElementCount; i++) {
-    ingredients += `<tr><td><li class="tableStyling">${document.getElementById("ingredientList").children[i].innerText.replace("\ndelete", "")}</li></td></tr>`
+    url += `&ingredient` + i + "=" + document.getElementById("ingredientList").children[i].innerText.replace("\ndelete", "");
   }
-
   for (let i = 0; i < document.getElementById("stepList").childElementCount; i++) {
-    instructions += `<tr><td>${i + 1}. ${document.getElementById("stepList").children[i].innerText.replace("\ndelete", "")}</li></td>`
+    url += `&step` + i + "=" + document.getElementById("stepList").children[i].innerText.replace("\ndelete", "");
   }
-
-  table.innerHTML = `
-      <thead>
-          <tr>
-              <th>Lemonade</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr class="recipeTableCategory">
-              <td>Ingredients</td>
-          </tr>
-          ${ingredients}
-          <tr class="recipeTableCategory">
-              <td>Instructions</td>
-          </tr>
-          ${instructions}
-      </tbody>`
-
-  table.className = "recipeTable";
-
-  document.body.appendChild(table);
+  window.open(url, "_blank");
 }
