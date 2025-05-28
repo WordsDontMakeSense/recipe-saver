@@ -140,6 +140,7 @@ function save() {
   const date = new Date();
   var data = {
     name: "",
+    author: "",
     ingredients: [],
     steps: [],
     // image: "",
@@ -147,6 +148,7 @@ function save() {
   };
 
   data.name = document.getElementById("recipeName").value;
+  data.author = document.getElementById("recipeAuthor").value;
   for (
     let i = 0;
     i < document.getElementById("ingredientList").childElementCount;
@@ -190,6 +192,7 @@ function resetRecipe() {
     const newStep = document.getElementById("newStep");
 
     const recipeName = document.getElementById("recipeName");
+    const recipeAuthor = document.getElementById("recipeAuthor");
 
     ingredientList.innerHTML = "";
     stepList.innerHTML = "";
@@ -199,6 +202,7 @@ function resetRecipe() {
     newStep.value = "";
 
     recipeName.value = "My Recipe";
+    recipeAuthor.value = "John Smith";
     return true;
   } else {
     return false;
@@ -235,8 +239,8 @@ function promptFileUpload() {
 
 function promptIMGUpload() {
   const reader = new FileReader();
-  var input = document.createElement('input');
-  input.type = 'file';
+  var input = document.createElement("input");
+  input.type = "file";
   input.accept = "image/png, image/jpg";
 
   reader.onload = function (e) {
@@ -244,13 +248,13 @@ function promptIMGUpload() {
       const b64img = e.target.result;
       const img = document.getElementById("image");
       img.src = b64img;
-      img.style = "margin-bottom: 10px;"
+      img.style = "margin-bottom: 10px;";
     } catch (error) {
-      alert('Error parsing IMG: ' + error);
+      alert("Error parsing IMG: " + error);
     }
   };
 
-  input.addEventListener('change', function (event) {
+  input.addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file) {
       reader.readAsDataURL(file);
@@ -269,6 +273,7 @@ function load(data) {
     const newStep = document.getElementById("newStep");
 
     const recipeName = document.getElementById("recipeName");
+    const recipeAuthor = document.getElementById("recipeAuthor");
 
     for (let i = 0; i < data.ingredients.length; i++) {
       addCompletedIngredient(data.ingredients[i]);
@@ -287,17 +292,40 @@ function load(data) {
     //   document.getElementById("image").src = "https://place-hold.it/500"
     // }
 
-    recipeName.value = data.name;
+    recipeName.value = data.name ? data.name : "My Recipe";
+    recipeAuthor.value = data.author ? data.author : "John Smith";
   }
 }
 
 function printPDF() {
-  var url = `print.html?recipeName=${document.getElementById("recipeName").value}`
-  for (let i = 0; i < document.getElementById("ingredientList").childElementCount; i++) {
-    url += `&ingredient` + i + "=" + document.getElementById("ingredientList").children[i].innerText.replace("\ndelete", "");
+  var url = `print.html?recipeName=${
+    document.getElementById("recipeName").value
+  }&recipeAuthor=${document.getElementById("recipeAuthor").value}`;
+  for (
+    let i = 0;
+    i < document.getElementById("ingredientList").childElementCount;
+    i++
+  ) {
+    url +=
+      `&ingredient` +
+      i +
+      "=" +
+      document
+        .getElementById("ingredientList")
+        .children[i].innerText.replace("\ndelete", "");
   }
-  for (let i = 0; i < document.getElementById("stepList").childElementCount; i++) {
-    url += `&step` + i + "=" + document.getElementById("stepList").children[i].innerText.replace("\ndelete", "");
+  for (
+    let i = 0;
+    i < document.getElementById("stepList").childElementCount;
+    i++
+  ) {
+    url +=
+      `&step` +
+      i +
+      "=" +
+      document
+        .getElementById("stepList")
+        .children[i].innerText.replace("\ndelete", "");
   }
   window.open(url, "_blank");
 }

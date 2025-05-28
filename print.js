@@ -5,16 +5,21 @@ window.addEventListener("load", (event) => {
   const tableContainer = document.createElement("div");
 
   var recipeName = "My Recipe";
+  var recipeAuthor = "John Smith";
   var ingredients = "";
   var instructions = "";
 
   searchParams.forEach((value, key) => {
     if (key.includes("ingredient")) {
-      ingredients += `<tr><td><li class="tableStyling">${value}</li></td></tr>`
+      ingredients += `<tr><td><li class="tableStyling">${value}</li></td></tr>`;
     } else if (key.includes("step")) {
-      instructions += `<tr><td>${parseInt(key.split("step").pop()) + 1}. ${value}</li></td>`
+      instructions += `<tr><td>${
+        parseInt(key.split("step").pop()) + 1
+      }. ${value}</li></td>`;
     } else if (key == "recipeName") {
       recipeName = value;
+    } else if (key == "recipeAuthor") {
+      recipeAuthor = value;
     }
   });
 
@@ -23,6 +28,9 @@ window.addEventListener("load", (event) => {
         <thead>
             <tr>
                 <th>${recipeName}</th>
+            </tr>
+            <tr>
+                <th>${recipeAuthor}</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +43,7 @@ window.addEventListener("load", (event) => {
             </tr>
             ${instructions}
         </tbody>
-        </table>`
+        </table>`;
 
   document.body.appendChild(tableContainer);
   window.print();

@@ -57,19 +57,24 @@ textarea {
 }
 
 /* Keeps space below the recipe name */
-#recipeName {
-    margin-bottom: 0!important;
+#recipeName,
+#recipeAuthor {
+    margin-bottom: 0 !important;
     display: block;
     font-size: 1.17em;
     font-weight: bold;
     border: none;
-    color: black;
     padding: 0;
     width: 100%;
 }
 
 #recipeName::placeholder {
     color: black;
+}
+
+#recipeAuthor {
+    color: #464646;
+    font-size: 1em;
 }
 
 /* Wrap quantity and measurement dropdown in one row using flex */
